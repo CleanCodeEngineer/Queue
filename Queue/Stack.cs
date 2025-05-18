@@ -10,11 +10,11 @@
         // With help of seconday queue, values are being saved in reverse order in primary queue so when we pop we get reverse order compare to what we push.
         public void push(int x)
         {
-            secondary.add(x);
+            secondary.Enqueue(x);
 
-            while (!primary.isEmpty())
+            while (!primary.IsEmpty())
             {
-                secondary.add(primary.remove());
+                secondary.Enqueue(primary.Dequeue());
             }
 
             primary = secondary;
@@ -23,9 +23,9 @@
 
         public int pop()
         {
-            if (primary.isEmpty()) throw new System.Exception("Stack is empty!");
+            if (primary.IsEmpty()) throw new System.Exception("Stack is empty!");
 
-            return primary.remove();
+            return primary.Dequeue();
         }
     }
 }

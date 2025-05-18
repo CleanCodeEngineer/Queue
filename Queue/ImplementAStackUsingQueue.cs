@@ -12,86 +12,48 @@ namespace Queue
         // OutputQueue: 3
         // InputQueue : 3 
         // in 1 queue we should always have one element which is the one we pop
-        public class Stack
-        {
-            public Queue<int> Queue1 { get; set; }
-            public Queue<int> Queue2 { get; set; }
 
-            public Stack()
+        public class MyStack
+        {
+            private Queue<int> q1;
+            private Queue<int> q2;
+
+            public MyStack()
             {
-                Queue1 = new Queue<int>();
-                Queue2 = new Queue<int>();
+                q1 = new Queue<int>();
+                q2 = new Queue<int>();
             }
 
-            public void Push(int value)
+            public void Push(int x)
             {
-                if (Queue1.isEmpty())
-                    Queue1.add(value);
-                else if (Queue2.isEmpty())
-                    Queue2.add(value);
-                else
-                {
-                    int top1 = Queue1.remove();
-                    int top2 = Queue2.remove();
+                // Push into q2
+                q2.Enqueue(x);
 
-                    if (Queue2.isEmpty() && Queue1.isEmpty())
-                    {
-                        Queue2.add(value);
-                        Queue1.add(top1);
-                        Queue1.add(top2);
-                    }
-                    else if (Queue2.isEmpty())
-                    {
-                        Queue2.add(value);
-                        Queue1.add(top1);
-                        Queue1.add(top2);
-                    }
-                    else if (Queue1.isEmpty())
-                    {
-                        Queue1.add(value);
-                        Queue2.add(top2);
-                        Queue2.add(top1);
-                    }
+                // Push all elements of q1 into q2
+                while (q1.Count > 0)
+                {
+                    q2.Enqueue(q1.Dequeue());
                 }
+
+                // Swap q1 and q2
+                var temp = q1;
+                q1 = q2;
+                q2 = temp;
             }
 
             public int Pop()
             {
-                if (Queue2.isEmpty() && Queue1.isEmpty()) throw new Exception("Stack is empty");
+                return q1.Dequeue();
+            }
 
-                int top = 0;
+            public int Top()
+            {
+                return q1.Peek();
+            }
 
-                if (Queue2.isEmpty() && !Queue1.isEmpty())
-                {
-                    top = Queue1.remove();
-                }
-                else if (Queue1.isEmpty() && !Queue2.isEmpty())
-                {
-                    top = Queue2.remove();
-                }
-                else if (!Queue2.isEmpty() && !Queue1.isEmpty())
-                {
-                    int top1 = Queue1.remove();
-                    int top2 = Queue2.remove();
-
-                    if (Queue1.isEmpty() && Queue2.isEmpty())
-                    {
-                        top = top1;
-                        Queue2.add(top2);
-                    }
-                    else if (Queue1.isEmpty())
-                    {
-                        top = top1;
-                        Queue1.add(top2);
-                    }
-                    else if (Queue2.isEmpty())
-                    {
-                        top = top2;
-                        Queue2.add(top1);
-                    }
-                }
-
-                return top;
+            public bool Empty()
+            {
+                return q1.Count == 0;
             }
         }
     }

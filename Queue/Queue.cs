@@ -3,62 +3,70 @@
 
 namespace Queue
 {
+    //  Implementing a queue using a singly linked list,
     public class Queue<T>
     {
-        private class QueueNode<T>
+        private class QueueNode
         {
-            public T data;
-            public QueueNode<T> next;
+            public T Data;
+            public QueueNode Next;
 
             public QueueNode(T data)
             {
-                this.data = data;
+                this.Data = data;
             }
         }
 
-        private QueueNode<T> first;
-        private QueueNode<T> last;
+        private QueueNode first;
+        private QueueNode last;
+        private int count = 0;
+        public int Count => count;  // Property you can access with q1.Count
 
-        public void add(T item)
+        // Enqueue (Add item to the end of the queue)
+        public void Enqueue(T item)
         {
-            QueueNode<T> t = new QueueNode<T>(item);
+            QueueNode newNode = new QueueNode(item);
 
             if (last != null)
             {
-                last.next = t;
+                last.Next = newNode;
             }
 
-            last = t;
+            last = newNode;
 
             if (first == null)
             {
                 first = last;
             }
+
+            count++;
         }
 
-        public T remove()
+        // Dequeue (Remove item from the front of the queue)
+        public T Dequeue()
         {
-            if (first == null) throw new Exception();
+            if (IsEmpty()) throw new InvalidOperationException("Queue is empty");
 
-            T data = first.data;
-            first = first.next;
+            T value = first.Data;
+            first = first.Next;
 
             if (first == null)
                 last = null;
 
-            return data;
+            count--;
+            return value;
         }
 
-        public T peek()
+        public T Peek()
         {
-            if (first == null) throw new Exception();
+            if (IsEmpty()) throw new InvalidOperationException("Queue is empty");
 
-            return first.data;
+            return first.Data;
         }
 
-        public Boolean isEmpty()
+        public Boolean IsEmpty()
         {
-            return first == null;
+            return count == 0;
         }
     }
 }
