@@ -6,7 +6,7 @@ namespace Queue
     // Implement a stack with basic functionality (push and pop) using queues to store the data.
     public class ImplementAStackUsingQueue
     {
-        // STack: LILO
+        // Stack: LILO
         // Queue: FIFO 
         // InputQueue : 2 1
         // OutputQueue: 3
